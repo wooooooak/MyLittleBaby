@@ -12,7 +12,7 @@
     @endforeach
   </ul>
 
-  <div>
+  <div class="pull-left">
     &copy; {{ date('Y') }}
     <a href="{{ config('project.url') }}">
       {{ config('app.name') }}

@@ -6,7 +6,7 @@
               <img  class="activator" src="/files/{{ $attachment->filename }}">
           @endforeach
       @endif
-</div>
+  </div>
 
   <div class="card-content">
     <span class="card-title activator grey-text text-darken-4">
@@ -38,5 +38,5 @@
   <div class="card-reveal">
       <span class="card-title grey-text text-darken-4">{{ $article->title }}<i class="material-icons right">close</i></span>
           {!! markdown( $article->content) !!}
-    </div>
+  </div>
 </div>

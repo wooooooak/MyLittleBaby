@@ -33,13 +33,12 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
             'bindings',
         ],
     ];
 
     /**
-     * The application's route middleware.
+     * 라우트 미들웨어를 매핑시킨다.
      *
      * These middleware may be assigned to groups or used individually.
      *
@@ -51,9 +50,6 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'auth.basic.once' => \App\Http\Middleware\AuthenticateOnceWithBasicAuth::class,
-        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
-        'jwt.refresh' => \App\Http\Middleware\RefreshToken::class,
+
     ];
 }

@@ -55,7 +55,7 @@ class User extends Authenticatable
         'activated' => 'boolean',
     ];
 
-    /* Relationships */
+    /* 데이터 테이블들의 관계  */
 
     public function articles() {
         return $this->hasMany(Article::class);
@@ -70,19 +70,12 @@ class User extends Authenticatable
         return $this->hasMany(Vote::class);
     }
 
-    /* Query Scopes */
-
+    //active속성이 1 인것만 유저취급함.
     public function scopeSocialUser(\Illuminate\Database\Eloquent\Builder $query, $email)
     {
         return $query->whereEmail($email)->whereNull('password')->whereActivated(1);
     }
 
-    /* Accessors */
-
-//    public function getGravatarUrlAttribute()
-//    {
-//        return sprintf("//www.gravatar.com/avatar/%s?s=%s", md5($this->email), 48);
-//    }
 
     /* Helpers */
 

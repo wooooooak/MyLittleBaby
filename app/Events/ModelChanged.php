@@ -19,7 +19,6 @@ class ModelChanged
     public $cacheTags;
 
     /**
-     * Create a new event instance.
      *
      * @param string $cacheTags
      */

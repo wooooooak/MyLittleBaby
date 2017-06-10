@@ -36,8 +36,54 @@
        background-color: white;
      }
      .intro-1{
-       height:94vh;
+       height:91vh;
      }
+     .intro-title{
+       margin-top: 20vh;
+     }
+     .card-info h1,.card-info h2,.card-info h3{
+       font-size:15px;
+     }
+     .intro-2>h3{
+       color:black;
+       margin-top: 50px;
+       margin-bottom: 100px;
+     }
+     .intro-2 h3 + .blog-card{
+        background: url('mnb.jpg') no-repeat center;
+     }
+     .intro-2 h3 + .blog-card + .blog-card{
+       background: url('bbb.jpg') no-repeat;
+     }
+     .register-box{
+       background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+       margin-top: 60px;
+       border-radius: 14px;
+       width: 500px;
+       left: 50%; transform: translateX(-10%);
+       padding: 15px;
+       margin-bottom: 50px;
+       box-shadow: 5px 7px 70px rgba(0, 0, 0, .2);
+     }
+     .form-group-center{
+       text-align: center;
+     }
+     .btn-pink{
+       background-color: #ed076e;
+       color: white;
+     }
+     .btn-social{
+       background-color:  rgba( 255, 255, 255, 0.5 );
+       color: black;
+     }
+     .full-content{
+        background: url('/reg_image3.jpg') no-repeat ;
+        background-size: cover;
+     }
+     .text-white{
+       color : white;
+     }
+
   </style>
 </head>
 @php
@@ -50,9 +96,9 @@
         @yield('content')
       @else
         @include('welcomeView.introPage')
+        @include('layouts.partial.footer')
       @endif
 
-    @include('layouts.partial.footer')
 
     <!-- Scripts -->
     <script src="{{ elixir('js/app.js') }}"></script>

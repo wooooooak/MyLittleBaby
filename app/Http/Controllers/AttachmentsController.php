@@ -49,7 +49,7 @@ class AttachmentsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 저장공간에서 삭제
      *
      * @param \App\Attachment $attachment
      * @return \Illuminate\Http\Response
@@ -72,24 +72,4 @@ class AttachmentsController extends Controller
         );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param $file
-     * @return \Illuminate\Contracts\Routing\ResponseFactory
-     */
-    public function show($file)
-    {
-        $path = attachments_path($file);
-
-        if (! \File::exists($path)) {
-            abort(404);
-        }
-
-        $image = \Image::make($path);
-
-        return response($image->encode('png'), 200, [
-            'Content-Type' => 'image/png'
-        ]);
-    }
 }

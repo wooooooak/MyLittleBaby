@@ -34,10 +34,4 @@ class Tag extends Model
         return $this->belongsToMany(Article::class);
     }
 
-    /* Accessors */
-
-//    public function getArticlesCountAttribute()
-//    {
-//        return $this->articles->count();
-//    }
 }

@@ -13,7 +13,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the application registration form.
+     * 회원가입 버튼을 눌렀을때 처리
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,8 +23,8 @@ class UsersController extends Controller
     }
 
     /**
-     * Handle a registration request for the application.
-     *
+     * 회원가입을 했을때 이메일을 확인하고 이미 소셜로그인으로 가입된 이메일이라면
+     * 소셜 계정을 업데이트한다.
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -38,30 +38,9 @@ class UsersController extends Controller
     }
 
     /**
-     * Confirm user's email address.
-     *
-     * @param string $code
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function confirm($code)
-    {
-        $user = User::whereConfirmCode($code)->first();
-
-        if (! $user) {
-            return $this->respondWrongUrl();
-        }
-
-        $user->activated = 1;
-        $user->confirm_code = null;
-        $user->save();
-
-        return $this->responsConfirmed($user);
-    }
-
-    /**
-     * A user has logged into the application with social account before.
-     * But s/he tries to register an native account again.
-     * So updating his/her existing social account with the information.
+     * 유저가 예전에 소셜로그인으로 로그인 한 경험이 있을경우.
+     * 다시 로컬 계정으로 로그인하려고할떄 처리.
+     * 비밀번호를 추가시킨다(소셜아이디는 비밀번호가 없음.)
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\User $user
@@ -84,8 +63,8 @@ class UsersController extends Controller
     }
 
     /**
-     * A user tries to register a native account for the first time.
-     * S/he has not logged into this service before with a social account.
+     * 사용자가 mlb 로컬 계정으로 처음 가입했을때 실행.
+     * 입력폼을 검사 ,validate()함수로 검사한다.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -105,10 +84,16 @@ class UsersController extends Controller
             'password' => bcrypt($request->input('password')),
             'confirm_code' => $confirmCode,
         ]);
+        $user->activated = 1;
+        $user->confirm_code = null;
+        $user->last_login= \Carbon\Carbon::now();
+        $user->save();
+        auth()->login($user);
 
-        event(new \App\Events\UserCreated($user));
-
-        return $this->respondConfirmationEmailSent();
+        flash(
+            trans('auth.users.info_confirmed', ['name' => $user->name])
+        );
+        return redirect(route('main'));
     }
 
     /**
@@ -143,7 +128,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Make an error response.
+     * 에러 응답
      *
      * @param string $message
      * @return \Illuminate\Http\RedirectResponse
@@ -167,25 +152,4 @@ class UsersController extends Controller
         );
     }
 
-    /**
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    protected function respondConfirmationEmailSent()
-    {
-        flash(trans('auth.users.info_confirmation_sent'));
-
-        return redirect(route('main'));
-    }
-
-    /**
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    protected function respondWrongUrl()
-    {
-        flash()->error(
-            trans('auth.users.error_wrong_url')
-        );
-
-        return redirect(route('root'));
-    }
 }

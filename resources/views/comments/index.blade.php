@@ -4,6 +4,7 @@
   </h4>
 </div>
 <div class="form__new__comment">
+  {!! csrf_field() !!}
   @if($currentUser)
     @include('comments.partial.create')
   @else
@@ -11,6 +12,7 @@
   @endif
 </div>
 <div class="list__comment">
+  {!! csrf_field() !!}
   @forelse($comments as $comment)
     @include('comments.partial.comment', [
       'parentId' => $comment->id,

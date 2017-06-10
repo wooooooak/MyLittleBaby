@@ -27,15 +27,6 @@
   </div>
 </div>
 
-{{-- <div class="form-group">
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" name="notification" value="{{ old('notification', $article->notification) }}">
-      {{ trans('forum.articles.notify_me') }}
-    </label>
-  </div>
-</div> --}}
-
 <div class="form-group">
   <label for="my-dropzone">{{ trans('forum.articles.form_files') }}
     <small class="text-muted">
@@ -83,16 +74,15 @@
     // 파일 업로드 성공 이벤트 리스너.
     myDropzone.on('successmultiple', function(file, data) {
       for (var i= 0,len=data.length; i<len; i++) {
-        // 책에 있는 'attachments[]' 숨은 필드 추가 로직을 별도 메서드로 추출했다.
+
         handleFormElement(data[i].id);
 
-        // 책에 없는 내용
         // 성공한 파일 애트리뷰트를 파일 인스턴스에 추가
         file[i]._id = data[i].id;
         file[i]._name = data[i].filename;
         file[i]._url = data[i].url;
 
-        // 책에 없는 내용
+
         // 이미 파일일 경우 handleContent() 호출.
         if (/^image/.test(data[i].mime)) {
           handleContent('content', data[i].url);

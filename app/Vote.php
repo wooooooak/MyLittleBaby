@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Vote extends Model
 {
     /**
-     * Indicates if the model should be timestamped.
-     *
      * @var bool
      */
     public $timestamps = false;
@@ -58,7 +56,6 @@ class Vote extends Model
         return $this->belongsTo(User::class);
     }
 
-    /* Mutators */
 
     public function setUpAttribute($value)
     {

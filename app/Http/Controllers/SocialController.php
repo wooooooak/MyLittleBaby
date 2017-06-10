@@ -15,7 +15,7 @@ class SocialController extends Controller
     }
 
     /**
-     * Handle social login process.
+     * 소셜로그인 기능 로그인을 대형 웹 포털사이트에 연동시킨다.
      *
      * @param \Illuminate\Http\Request $request
      * @param string                   $provider
@@ -24,10 +24,10 @@ class SocialController extends Controller
     public function execute(Request $request, $provider)
     {
         if (! $request->has('code')) {
-            return $this->redirectToProvider($provider);
+            return $this->redirectToProvider($provider); //사용자가 소셜로그인의 code번호가 없다면
         }
 
-        return $this->handleProviderCallback($provider);
+        return $this->handleProviderCallback($provider); //사용자가 소셜로그인 사용자라면
     }
 
     /**
@@ -42,7 +42,7 @@ class SocialController extends Controller
     }
 
     /**
-     * Obtain the user information from the Social Login Provider.
+     * 소셜 로그인 provider로 인해 사용자 인증을 받음.
      *
      * @param string $provider
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

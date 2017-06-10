@@ -6,21 +6,6 @@ use Illuminate\Http\Request;
 
 class SessionsController extends Controller
 {
-    use \Illuminate\Foundation\Auth\ThrottlesLogins;
-
-    /**
-     * 지정된 횟수를 초과해서 로그인이 틀렸을 때 로그인이 잠기는 시간.
-     *
-     * @var int
-     */
-    protected $lockoutTime = 60;
-
-    /**
-     * 틀린 로그인을 몇 번까지 허용할 지를 설정한다.
-     *
-     * @var int
-     */
-    protected $maxLoginAttempts = 5;
 
     /**
      * SessionsController constructor.
@@ -31,7 +16,7 @@ class SessionsController extends Controller
     }
 
     /**
-     * Show the application login form.
+     *  사용자가 로그인 버튼을 눌렀을때 처리 함수
      *
      * @return \Illuminate\Http\Response
      */
@@ -41,59 +26,35 @@ class SessionsController extends Controller
     }
 
     /**
-     * Handle login request to the application.
-     *
+     *   사용자가 로그인할때 확인하고 로그인 시키는 메서드
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     *   사용자가 로그인할때 확인하고 로그인 시키는 메서드
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+            'email' => 'required|email',  //필수 입력사항 명시
+            'password' => 'required|min:6', //패스워드는 최소 6자리수 이상
         ]);
 
-        // ThrottlesLogins 트레이트를 사용하면 사용자의 로그인 아이디와 IP 주소를 조합하여
-        // 로그인 횟수 제한 기능을 활성화할 수 있다.
-        $throttles = method_exists($this, 'hasTooManyLoginAttempts');
+        if(!auth()->attempt($request->only('email', 'password'), $request->has('remember'))){
+          flash(
+              "trans('auth.sessions.error_incorrect_credentials')"  //flash가 왜안되지
+          );
+          return back()->withInput();
+        };
 
-        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-
-            return $this->sendLockoutResponse($request);
-        }
-
-        $token = is_api_domain()
-            ? jwt()->attempt($request->only('email', 'password'))
-            : auth()->attempt($request->only('email', 'password'), $request->has('remember'));
-
-        if (! $token) {
-            if (\App\User::socialUser($request->input('email'))->first()) {
-                return $this->respondSocialUser();
-            }
-
-            if ($throttles && ! $lockedOut) {
-                // 로그인에 성공하지 못하면 로그인 실패 횟수가 증가시킨다.
-                // $maxLoginAttempts로 정한 횟수를 초과해서 실패하면
-                // $lockoutTime(초) 동안 로그인을 할 수 없다.
-                $this->incrementLoginAttempts($request);
-            }
-
-            return $this->respondLoginFailed();
-        }
-
-        if (! auth()->user()->activated) {
+        if (! auth()->user()->activated) {  // 회원가입이 아직 활성화 되지 않았을경우... 이메일 인증하려고 했으나 실패
             auth()->logout();
 
-            return $this->respondNotConfirmed();
+            return back()->withInput();
         }
 
-        return $this->respondCreated($token);
+        return redirect()->intended(route('main'));
     }
 
     /**
-     * Log the user out of the application.
+     * 로그아웃 처리 메서드
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -110,33 +71,17 @@ class SessionsController extends Controller
     /* Response Methods */
 
     /**
-     * Make a success response.
+     *  로그인 성공적일때
      *
      * @param string|boolean $token
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    protected function respondCreated($token)
+    protected function respondCreated()
     {
         flash(
             trans('auth.sessions.info_welcome', ['name' => auth()->user()->name])
         );
-
-        return ($return = request('return'))
-            ? redirect(urldecode($return))
-            : redirect()->intended(route('main'));
-    }
-
-    /**
-     * Make an error response.
-     *
-     * @param string $message
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function respondError($message)
-    {
-        flash()->error($message);
-
-        return back()->withInput();
+        return redirect()->intended(route('main'));
     }
 
     /**
@@ -151,39 +96,12 @@ class SessionsController extends Controller
         return back()->withInput();
     }
 
-    /**
-     * @return $this
-     */
-    protected function respondLoginFailed()
-    {
-        flash()->error(
-            trans('auth.sessions.error_incorrect_credentials')
-        );
-
-        return back()->withInput();
-    }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    protected function respondNotConfirmed()
-    {
-        flash()->error(
-            trans('auth.sessions.error_not_confirmed')
-        );
-
-        return back()->withInput();
-    }
-
-    /**
-     * Get the login username to be used by the controller.
-     *
      * @return string
      */
     public function username()
     {
-        // 로그인 throttling을 위한 메서드다.
-        // 라라벨 5.3에서만 필요하다. 다른 버전은 아래를 참고한다.
         return 'email';
     }
 

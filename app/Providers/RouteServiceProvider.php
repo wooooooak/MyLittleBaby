@@ -25,19 +25,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::model('article', \App\Article::class, function ($id) {
-            return \App\Article::whereId(optimus()->decode($id))->first();
-        });
-
         Route::model('attachment', \App\Attachment::class);
 
-        Route::model('comment', \App\Comment::class, function ($id) {
-            return \App\Comment::whereId(optimus()->decode($id))->first();
-        });
-
-        Route::model('user', \App\User::class, function ($id) {
-            return \App\User::whereId(optimus()->decode($id))->first();
-        });
     }
 
     /**
@@ -51,7 +40,6 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
     }
 
     /**
@@ -72,7 +60,6 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
      *
@@ -83,7 +70,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::group([
             'middleware' => 'api',
             'namespace' => $this->namespace,
-//            'prefix' => 'api',
         ], function ($router) {
             require base_path('routes/api.php');
         });

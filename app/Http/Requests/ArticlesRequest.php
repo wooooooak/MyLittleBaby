@@ -18,8 +18,6 @@ class ArticlesRequest extends FormRequest
     ];
 
     /**
-     * Determine if the user is authorized to make this request.
-     *
      * @return bool
      */
     public function authorize()
@@ -28,7 +26,7 @@ class ArticlesRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * 게시물 작성에 대한 요구사항.
      *
      * @return array
      */
@@ -48,7 +46,7 @@ class ArticlesRequest extends FormRequest
     }
 
     /**
-     * 'notification' 입력 값을 머지한 사용자 입력값을 조회합니다.
+     * 'notification' 입력 값을 머지한 사용자 입력값을 조회
      *
      * @return array
      */
@@ -59,16 +57,4 @@ class ArticlesRequest extends FormRequest
         ]);
     }
 
-    /**
-     * 사용자 입력 값으로부터 첨부파일 객체를 조회합니다.
-     *
-     * @return Collection
-     */
-    public function getAttachments()
-    {
-        return Attachment::whereIn(
-            'id',
-            $this->input('attachments', [])
-        )->get();
-    }
 }

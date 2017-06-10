@@ -7,8 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class CommentsRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
      * @return bool
      */
     public function authorize()
@@ -17,14 +15,14 @@ class CommentsRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * 댓글 달기위한 요구사항
      *
      * @return array
      */
     public function rules()
     {
         return [
-            'content' => ['required', 'min:10'],
+            'content' => ['required', 'min:5'],  // 댓글 태러를 방지하기위해 5글자 이하 댓글 제한.
             'parent_id' => ['numeric', 'exists:comments,id'],
         ];
     }

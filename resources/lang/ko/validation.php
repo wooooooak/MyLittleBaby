@@ -118,9 +118,5 @@ return [
         'files' => '파일',
         'files.*' => '파일',
         'parent_id' => '부모 댓글',
-//        'name' => '이름',
-//        'email' => '이메일',
-//        'password' => '비밀번호',
-//        'password_confirmation' => '비밀번호 확인',
     ],
 ];

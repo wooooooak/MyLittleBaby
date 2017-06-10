@@ -2,7 +2,7 @@
 
 @section('content')
   <div class="container">
-    
+
   <div class="page-header">
     <h4>
       <a href="{{ route('articles.index') }}">
@@ -14,7 +14,7 @@
     </h4>
   </div>
 
-  <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" class="form__article">
+  <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" class="form__article create_article">
     {!! csrf_field() !!}
 
     @include('articles.partial.form')

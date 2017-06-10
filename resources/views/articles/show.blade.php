@@ -3,7 +3,7 @@
 @section('content')
   @php $viewName = 'articles.show'; @endphp
 
-  <div class="page-header">
+  <div class="page-header container">
     <h4>
       <a href="{{ route('articles.index') }}">
         {{ trans('forum.title') }}
@@ -70,7 +70,6 @@
   <script>
     $('.button__delete').on('click', function (e) {
       var articleId = $('article').data('id');
-
       if (confirm('{{ trans('forum.articles.deleting') }}')) {
         $.ajax({
           type: 'DELETE',

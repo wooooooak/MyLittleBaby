@@ -61,6 +61,7 @@ class Comment extends Model
     protected $dates = [
         'deleted_at',
     ];
+    
 
     /* Relationships */
 

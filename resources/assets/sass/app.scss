@@ -64,7 +64,7 @@ label[for=my-dropzone]>small {
 }
 
 .action__article {
-  margin-top: 1em;
+  margin-top: 3em;
 }
 
 .footer__master {
@@ -514,10 +514,8 @@ span.form-error {
     opacity: 0.5;
   }
 
-  // 이상 데일 리즈의 칼라 스킴에서 복사한 스타일시트
 }
 
-// 미디어 쿼리
 @media screen and (max-width: 991px) {
   .action__article {
     margin-bottom: 1em;

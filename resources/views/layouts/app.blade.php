@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" rel="stylesheet">
-       <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
   <link rel="stylesheet" href="/css/materialize.css">
   <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="/css/navbar.css">
@@ -38,8 +38,25 @@
   #app-layout{
     background: white;
   }
-
-
+  .action__article {
+    margin-top: 1em;
+  }
+  .sort__article{
+    margin-top: 1.5em;
+  }
+  .mdl-textfield__label{
+    margin-bottom: : 0px;
+  }
+  .mdl-textfield, .mdl-textfield__input{
+    margin-bottom: 0px;
+  }
+  .card{
+    box-shadow: 5px 7px 70px rgba(0, 0, 0, .2);
+  }
+  .create_article{
+    padding-left: 70px;
+    padding-right: 70px;
+  }
 
   @yield('style')
 
@@ -58,8 +75,6 @@
 
 
 <body id="app-layout">
-  {{-- welcome view 에서는 css를 따로 적용시켜서 nav부분이 다르게 적용됨.
-  다른 모든 view에서의 nav를 바꾸고 싶으면 여기서 적용하자. --}}
   @include('layouts.partial.nav_home')
     @include('flash::message')
     <div class="container-fluid">
@@ -72,7 +87,7 @@
   <!-- Scripts -->
   <script src="{{ elixir('js/app.js') }}"></script>
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-  <script type="text/javascript" src="js/materialize.js"></script>
+  <script src="/js/materialize.js"></script>
 
   @yield('script')
 </body>

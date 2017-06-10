@@ -37,6 +37,7 @@ class Attachment extends Model
         'url',
     ];
 
+
     /* Relationships */
 
     public function article()

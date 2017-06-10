@@ -86,10 +86,7 @@ return [
     |--------------------------------------------------------------------------
     | Fractal Serializer
     |--------------------------------------------------------------------------
-    |
-    | Refer to
-    | http://fractal.thephpleague.com/serializers/
-    |
+
     */
     'serializer' => \League\Fractal\Serializer\ArraySerializer::class,
 
@@ -123,10 +120,6 @@ return [
     |
     */
     'successFormat' => [
-//        'success' => [
-//            'code'    => ':code',
-//            'message' => ':message',
-//        ]
         'success' => ':message',
     ],
 
@@ -140,10 +133,6 @@ return [
     |
     */
     'errorFormat' =>  [
-//        'error' => [
-//            'code'    => ':code',
-//            'message' => ':message',
-//        ]
         'error' => ':message'
     ]
 

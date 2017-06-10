@@ -25,17 +25,23 @@ return [
         'send_login' => '로그인',
         'ask_registration' => '회원이 아니라면? <a href=":url"> 가입하세요. </a>',
         'ask_forgot' => '<a href=":url"> 비밀번호를 잊으셨나요? </a>',
-        'caveat_for_social' => '깃허브 로그인 사용자는 따로 회원가입하실 필요없습니다. 이 분들은 비밀번호가 없습니다.',
-        'error_social_user' => '회원가입하지 않으셨습니다. 지난번엔 깃허브로 로그인하셨어요.',
+        'caveat_for_social' => '소셜 로그인 사용자는 따로 회원가입하실 필요없습니다. 이 분들은 비밀번호가 없습니다.',
+        'error_social_user' => '회원가입하지 않으셨습니다. 지난번엔 소셜 로그인하셨어요.',
         'error_incorrect_credentials' => '이메일 또는 비밀번호가 맞지 않습니다.',
         'error_not_confirmed' => '가입확인해 주세요.',
         'info_welcome' => ':name님, 환영합니다.',
         'info_bye' => '또 방문해 주세요.',
+        'sign_btn' => '회원가입/로그인',
+        'find_pw'=>'비밀번호를 잊으셨나요?',
+        'login_by_mlb'=>'MLB 계정으로 로그인하기',
+        'not_auth_user'=>'회원이 아니라면 가입하세요!',
+
+
     ],
 
     'users' => [
         'title' => '회원가입',
-        'description' => '깃허브 계정으로 로그인하면 회원가입이 필요없습니다.',
+        'description' => '아래의 계정으로 로그인하면 회원가입이 필요없습니다.',
         'send_registration' => '가입하기',
         'error_wrong_url' => 'URL이 정확하지 않습니다.',
         'info_welcome' => ':name님, 환영합니다.',

@@ -22,31 +22,6 @@ class Handler extends ExceptionHandler
         \Illuminate\Validation\ValidationException::class,
     ];
 
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $exception
-     * @return void
-     */
-    public function report(Exception $exception)
-    {
-        if (app()->environment('production') && $this->shouldReport($exception)) {
-            \Slack::send(
-                sprintf(
-                    "%s \n\n%s \n%s:%d \n\n%s",
-                    get_class($exception),
-                    $exception->getMessage(),
-                    $exception->getFile(),
-                    $exception->getLine(),
-                    $exception->getTraceAsString()
-                )
-            );
-        }
-
-        parent::report($exception);
-    }
 
     /**
      * Render an exception into an HTTP response.
@@ -68,17 +43,13 @@ class Handler extends ExceptionHandler
                 $description = $exception->getMessage() ?: trans('messages.error.not_found');
             }
 
-            return response(view('errors.notice', [
-                'title' => $title,
-                'description' => $description,
-            ]), $statusCode);
         }
 
         return parent::render($request, $exception);
     }
 
     /**
-     * Convert an authentication exception into an unauthenticated response.
+     * 인증 에러 제 핸들
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Auth\AuthenticationException  $exception

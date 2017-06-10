@@ -1,20 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Article;
 
 class WelcomeController extends Controller
 {
     /**
-     * Say hello to visitors.
+     * welcome 뷰 띄우기
      *
      * @return \Illuminate\Contracts\View\Factory
      */
     public function index() {
-        return view('welcome');
+
+        $articles = \App\Article::with('comments')->orderBy('view_count','desc')->take(3)->get(); //가장 조회수가 많은 게시글 3개
+        //var_dump($articles);
+        return view('welcome',compact('articles'));
     }
 
     /**
-     * Set locale.
+     *  지역언어설정
      *
      * @return \Illuminate\Http\RedirectResponse
      */

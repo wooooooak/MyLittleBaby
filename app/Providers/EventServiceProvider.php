@@ -8,32 +8,14 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 class EventServiceProvider extends ServiceProvider
 {
     /**
-     * The event listener mappings for the application.
+     * 이벤트와 이벤트 리스너를 매핑시킴.
      *
      * @var array
      */
     protected $listen = [
-        \Illuminate\Auth\Events\Login::class => [
-            \App\Listeners\UsersEventListener::class,
-        ],
-        \App\Events\ArticlesEvent::class => [
-            \App\Listeners\ArticlesEventListener::class,
-        ],
-        \App\Events\CommentsEvent::class => [
-            \App\Listeners\CommentsEventListener::class,
-        ],
         \App\Events\ModelChanged::class => [
             \App\Listeners\CacheHandler::class,
         ],
-    ];
-
-    /**
-     * The subscriber classes to register.
-     *
-     * @var array
-     */
-    protected $subscribe = [
-        \App\Listeners\UsersEventListener::class,
     ];
 
     /**

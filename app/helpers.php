@@ -1,8 +1,10 @@
 <?php
 
+//가져온 외부 함수들 수정하지말자!!
+
 if (! function_exists('markdown')) {
     /**
-     * Compile Markdown to HTML.
+     * 마크다운 to html 컴파일
      *
      * @param string|null $text
      * @return string
@@ -14,7 +16,7 @@ if (! function_exists('markdown')) {
 
 if (! function_exists('gravatar_profile_url')) {
     /**
-     * Generate gravatar profile page url.
+     *그라바타 프로필 페이지 url 생성
      *
      * @param  string $email
      * @return string
@@ -27,7 +29,7 @@ if (! function_exists('gravatar_profile_url')) {
 
 if (! function_exists('gravatar_url')) {
     /**
-     * Generate gravatar image url.
+     * 그라바타 이미지 url생성
      *
      * @param  string  $email
      * @param  integer $size
@@ -118,10 +120,6 @@ if (! function_exists('link_for_sort')) {
 
 if (! function_exists('cache_key')) {
     /**
-     * Generate key for caching.
-     *
-     * Note that, even though the request endpoints are the same
-     *     the response body may be different because of the query string.
      *
      * @param $base
      * @return string
@@ -168,65 +166,13 @@ if (! function_exists('current_url')) {
     }
 }
 
-if (! function_exists('array_transpose')) {
-    /**
-     * Transpose the given array.
-     *
-     * @param array $data
-     * @return array
-     */
-    function array_transpose(array $data)
-    {
-        $res = [];
-
-        foreach ($data as $row => $columns) {
-            foreach ($columns as $row2 => $column2) {
-                $res[$row2][$row] = $column2;
-            }
-        }
-
-        return $res;
-    }
-}
 
 if (! function_exists('is_api_domain')) {
     /**
-     * Determine if the current request is for HTTP api.
-     *
      * @return bool
      */
     function is_api_domain()
     {
         return starts_with(request()->getHttpHost(), config('project.api_domain'));
-    }
-}
-
-if (! function_exists('jwt')) {
-    /**
-     * Create JWT instance.
-     *
-     * @return \Tymon\JWTAuth\JWTAuth
-     */
-    function jwt() {
-        return app('tymon.jwt.auth');
-    }
-}
-
-if (! function_exists('optimus')) {
-    /**
-     * Create Optimus instance.
-     *
-     * @param int|null $id
-     * @return int|\Jenssegers\Optimus\Optimus
-     */
-    function optimus($id = null)
-    {
-        $factory = app('optimus');
-
-        if (func_num_args() === 0) {
-            return $factory;
-        }
-
-        return $factory->encode($id);
     }
 }

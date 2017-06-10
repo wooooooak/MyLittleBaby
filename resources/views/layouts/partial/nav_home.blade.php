@@ -11,7 +11,7 @@
       </button>
 
       <!-- Branding Image -->
-      <a class="navbar-brand" href="{{ url('/') }}">
+      <a class="navbar-brand" href="{{route('root')}}">
         {{-- {{ config('app.name', 'My Little Baby') }} --}}
         <div class='hover-title'>
           <span>M</span><span>Y</span><span> </span>
@@ -26,10 +26,9 @@
       <ul class="nav navbar-nav">
         <li>
           <a href="{{ route('articles.index') }}">
-              {{ trans('forum.title') }}!
+              {{ trans('forum.title') }}
           </a>
         </li>
-         <li><a href="#"> {{ trans('forum.title') }}2 </a></li>
          @foreach (config('project.locales') as $locale => $language)
            <li {!! ($locale == $currentLocale ) ? 'class="active"' : '' !!}>
              <a href="{{ route('locale', ['locale' => $locale, 'return' => urlencode($currentUrl)]) }}">
@@ -47,7 +46,7 @@
         @if (Auth::guest())
           <!-- Button trigger modal -->
           <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id='nav_btn' data-toggle="modal" data-target="#myModal">
-            <i class="fa fa-user"> </i> Sign up/ Sign in
+            <i class="fa fa-user"> </i> {{trans('auth.sessions.sign_btn')}}
           </button>
           <!-- Modal -->
           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -62,7 +61,7 @@
                     <a class="btn btn-default btn-lg btn-block login-btn" href="{{ route('social.login', ['github']) }}">
                       <strong>
                         <img src="/github.png" alt="">
-                        Github 계정으로 로그인하기
+                         {{trans('auth.sessions.login_with_github')}}
                       </strong>
                     </a>
                   </div>
@@ -70,7 +69,7 @@
                     <a class="btn btn-default btn-lg btn-block login-btn" href="{{ route('social.login', ['facebook']) }}">
                       <strong>
                         <img src="/facebook.png" alt="">
-                        facebook 계정으로 로그인하기
+                        {{trans('auth.sessions.login_with_facebook')}}
                       </strong>
                     </a>
                   </div>
@@ -78,21 +77,19 @@
                     <a class="btn btn-default btn-lg btn-block login-btn" href="{{ route('social.login', ['google']) }}">
                       <strong>
                         <img src="/google-plus.png" alt="">
-                        google 계정으로 로그인하기
+                        {{trans('auth.sessions.login_with_google')}}
                       </strong>
                     </a>
                   </div>
 
                   <div class="text-center">
-                    <a href="{{ route('sessions.create') }}">MLB계정으로 로그인하기</a>
+                    <a href="{{ route('sessions.create') }}">{{trans('auth.sessions.login_by_mlb')}}</a>
                   </div>
                   <div class="text-center">
-                    <a href="{{ route('users.create') }}">회원이 아니신가요? </a> <a href="#">비밀번호를 잊으셨나요?</a>
+                    <a href="{{ route('users.create') }}">{{trans('auth.sessions.not_auth_user')}} </a> <a href="{{ route('remind.create') }}">{{trans('auth.sessions.find_pw')}}</a>
                   </div>
                 </div>
                 <div class="modal-footer text-center">
-                  <p>footer</p>
-
                 </div>
               </div>
             </div>

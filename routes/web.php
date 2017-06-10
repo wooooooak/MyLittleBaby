@@ -4,19 +4,30 @@ Route::get('/', [
     'as' => 'root',
     'uses' => 'WelcomeController@index',
 ]);
-
 Route::get('/main', [
     'as' => 'main',
     'uses' => 'ArticlesController@index',
 ]);
-
+// Route::get('mail', function () {
+//     $article = App\Article::with('user')->find(1);
+//     var_dump($article->title);
+//     return Mail::send(  //             왜 안될까..........................
+//         'emails.ko.articles.created',
+//         compact('article'),
+//         function ($message) use ($article){
+//             $message->from('you@domain', 'Your Name');
+//             $message->to(['you2@domain', 'yours@domain']);
+//             $message->subject('새 글이 등록되었습니다 -' . $article->title);
+//         }
+//     );
+// });
 /* 언어 선택 */
 Route::get('locale', [
     'as' => 'locale',
     'uses' => 'WelcomeController@locale',
 ]);
 
-/* 아티클 */
+/* article */
 Route::resource('articles', 'ArticlesController');
 Route::get('tags/{slug}/articles', [
     'as' => 'tags.articles.index',
@@ -37,10 +48,6 @@ Route::post('comments/{comment}/votes', [
     'uses' => 'CommentsController@vote',
 ]);
 
-/* Markdown Viewer */
-Route::get('docs/{file?}', 'DocsController@show');
-Route::get('docs/images/{image}', 'DocsController@image')
-    ->where('image', '[\pL-\pN\._-]+-img-[0-9]{2}.png');
 
 /* 사용자 등록 */
 Route::get('auth/register', [  //회원가입 화면
@@ -84,12 +91,4 @@ Route::get('auth/remind', [
 Route::post('auth/remind', [
     'as' => 'remind.store',
     'uses' => 'PasswordsController@postRemind',
-]);
-Route::get('auth/reset/{token}', [
-    'as' => 'reset.create',
-    'uses' => 'PasswordsController@getReset',
-])->where('token', '[\pL-\pN]{64}');
-Route::post('auth/reset', [
-    'as' => 'reset.store',
-    'uses' => 'PasswordsController@postReset',
 ]);

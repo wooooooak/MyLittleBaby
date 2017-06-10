@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class CommentsController extends Controller
 {
     /**
-     * CommentsController constructor.
+     * 사용자 인증한 회원만 댓글 서비스 이용가능
      */
     public function __construct()
     {
@@ -18,8 +18,7 @@ class CommentsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * 댓글 저장.
      * @param \App\Http\Requests\CommentsRequest $request
      * @param \App\Article $article
      * @return \Illuminate\Http\Response
@@ -32,7 +31,7 @@ class CommentsController extends Controller
         ));
 
         event(new \App\Events\ModelChanged(['articles']));
-        event(new \App\Events\CommentsEvent($comment));
+
         flash()->success(
             trans('forum.comments.success_writing')
         );
@@ -41,7 +40,7 @@ class CommentsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     *  댓글 수정 처리
      *
      * @param \App\Http\Requests\CommentsRequest $request
      * @param \App\Comment $comment
@@ -59,7 +58,7 @@ class CommentsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 댓글 삭제 처리
      *
      * @param \App\Comment $comment
      * @return \Illuminate\Http\Response
@@ -77,11 +76,11 @@ class CommentsController extends Controller
 
         event(new \App\Events\ModelChanged(['articles']));
 
-        return response()->json([], 204, [], JSON_PRETTY_PRINT);
+        return response()->json([], 204, [], JSON_PRETTY_PRINT); //뷰 전환이 아니므로 json응답 처리했음
     }
 
     /**
-     * Vote up or down for the given comment.
+     *  댓글 투표 기능.
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Comment $comment

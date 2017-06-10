@@ -13,7 +13,7 @@ use App\Attachment;
 class ArticlesController extends Controller implements Cacheable
 {
     /**
-     * ArticlesController constructor.
+     * index와 show를 제외한 컨텐츠는 auth인증 필요.
      */
     public function __construct()
     {
@@ -32,7 +32,8 @@ class ArticlesController extends Controller implements Cacheable
     }
 
     /**
-     * Display a listing of the resource.
+     * 게시글 인덱스 화면.
+     *검색과 태그 선택적용.
      *
      * @param \Illuminate\Http\Request $request
      * @param string|null $slug
@@ -40,6 +41,7 @@ class ArticlesController extends Controller implements Cacheable
      */
     public function index(Request $request, $slug = null) {
 
+      //태그가 선택되었을 경우.
         $query = $slug
             ? \App\Tag::whereSlug($slug)->firstOrFail()->articles()
             : new Article;
@@ -49,6 +51,9 @@ class ArticlesController extends Controller implements Cacheable
             $request->input('order', 'desc')
         );
 
+        /*
+        *  사용자가 검색했을떄.
+        */
         if ($keyword = request()->input('q')) {
             $raw = 'MATCH(title,content) AGAINST(? IN BOOLEAN MODE)';
             $query = $query->whereRaw($raw, [$keyword]);
@@ -56,11 +61,6 @@ class ArticlesController extends Controller implements Cacheable
 
         $articles = $query->with('attachments')->latest()->paginate(50);
 
-        return $this->respondCollectionMain($articles);
-    }
-
-    protected function respondCollectionMain(LengthAwarePaginator $articles)
-    {
         return view('articles.index', compact('articles'));
     }
 
@@ -108,7 +108,6 @@ class ArticlesController extends Controller implements Cacheable
             $attachment->save();
         });
 
-        event(new \App\Events\ArticlesEvent($article));
         event(new \App\Events\ModelChanged(['articles']));
 
         return $this->respondCreated($article);
@@ -167,7 +166,7 @@ class ArticlesController extends Controller implements Cacheable
         $article->update($payload);
         $article->tags()->sync($request->input('tags'));
 
-        event(new \App\Events\ModelChanged(['articles']));
+        // event(new \App\Events\ModelChanged(['articles']));
         flash()->success(
             trans('forum.articles.success_updating')
         );
@@ -185,39 +184,12 @@ class ArticlesController extends Controller implements Cacheable
     {
         $this->authorize('delete', $article);
 
-        $this->deleteAttachments($article->attachments);
-
+        //logger( $article->id,'삭제');
         $article->delete();
-
-        event(new \App\Events\ModelChanged(['articles']));
 
         return response()->json([], 204, [], JSON_PRETTY_PRINT);
     }
 
-    public function deleteAttachments(Collection $attachments)
-    {
-        $attachments->each(function ($attachment) {
-            $filePath = $attachments_path($attachment->filename);
-
-            if (File::exists($filePath)) {
-                File::delete($filePath);
-            }
-
-            return $attachment->delete();
-        });
-    }
-
-    /* Response Methods */
-
-    /**
-     * @param \Illuminate\Contracts\Pagination\LengthAwarePaginator $articles
-     * @param string|null $cacheKey
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    protected function respondCollection(LengthAwarePaginator $articles, $cacheKey = null)
-    {
-        return view('articles.index', compact('articles'));
-    }
 
 
     /**

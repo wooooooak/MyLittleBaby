@@ -34,15 +34,15 @@
 
     <!--정렬 UI-->
     <div class="col-md-2 btn-group sort__article">
-
-      <div class="action__article">
-        <a href="{{ route('articles.create') }}" class="btn-lg btn-primary">
+      <div class="action__article fuller-button blue2 text-center">
+        <a href="{{ route('articles.create') }}" >
           <i class="fa fa-plus-circle"></i>
           {{ trans('forum.articles.create') }}
         </a>
       </div>
 
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      <button type="button" class="btn btn-block btn-default dropdown-toggle sort__article"
+                          data-toggle="dropdown">
         <i class="fa fa-sort"></i>
         {{ trans('forum.articles.sort') }}
         <span class="caret"></span>
